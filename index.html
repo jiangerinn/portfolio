@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nan Jiang | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-color: #e0e0e0;
+            --accent-color: #00f2ff;
+            --card-bg: #111111;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .name-title { font-size: 3rem; font-weight: 600; color: #fff; margin: 0; letter-spacing: -1px; }
+        .bio { font-size: 1.1rem; color: #888; border-left: 2px solid var(--accent-color); padding-left: 1.5rem; margin-top: 1rem; max-width: 600px; }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem 5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid #222;
+            overflow: hidden;
+        }
+
+        .project-card:hover { transform: translateY(-10px); border-color: var(--accent-color); }
+
+        .preview-box {
+            width: 100%;
+            height: 250px;
+            position: relative;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .cover-media {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0; left: 0;
+            z-index: 2;
+            transition: opacity 0.4s ease;
+        }
+
+        .hover-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0; left: 0;
+            z-index: 1;
+        }
+
+        .project-card:hover .cover-media { opacity: 0; }
+
+        .project-info { padding: 1.5rem; }
+        .project-tag { font-size: 0.7rem; color: var(--accent-color); text-transform: uppercase; letter-spacing: 1px; }
+        .project-title { font-size: 1.3rem; color: #fff; margin-top: 0.5rem; }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.96);
+            backdrop-filter: blur(15px);
+        }
+
+        .modal-content {
+            position: relative;
+            background: #0a0a0a;
+            margin: 2% auto;
+            padding: 50px 40px;
+            width: 85%;
+            max-width: 1000px;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid #333;
+        }
+
+        .close-btn { position: absolute; right: 25px; top: 15px; color: #fff; font-size: 45px; cursor: pointer; }
+        .modal-body h2 { margin-top: 0; color: #fff; font-size: 2.2rem; margin-bottom: 10px; }
+        .modal-body h3 { color: var(--accent-color); font-size: 1rem; margin-top: 40px; text-transform: uppercase; letter-spacing: 2px; }
+        .modal-body p { color: #bbb; font-size: 1.05rem; line-height: 1.8; margin-bottom: 30px; max-width: 800px; }
+        .modal-body video, .modal-body img { width: 100%; margin-bottom: 25px; border: 1px solid #222; }
+        .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        /* To Be Continued Footer */
+        footer {
+            text-align: center;
+            padding: 6rem 2rem;
+            color: #444;
+        }
+        .tbc {
+            font-size: 1.2rem;
+            font-style: italic;
+            letter-spacing: 4px;
+            color: #666;
+            margin-bottom: 1rem;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 class="name-title">Nan Jiang</h1>
+    <p class="bio">Goldsmiths ComArts 26' <br> Practice-based Research | Exploring the interplay between physical sensors and generative digital organisms.</p>
+</header>
+
+<div class="container">
+    <div class="project-card" onclick="openModal('modal-octopus')">
+        <div class="preview-box">
+            <img src="assets/octopus1.JPG" class="cover-media">
+            <video loop muted playsinline class="hover-video">
+                <source src="assets/octopus.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="project-info">
+            <span class="project-tag">TouchDesigner / Arduino</span>
+            <div class="project-title">Mimic Octopus</div>
+        </div>
+    </div>
+
+    <div class="project-card" onclick="openModal('modal-conch')">
+        <div class="preview-box">
+            <img src="assets/conch1.jpg" class="cover-media"> 
+            <video loop muted playsinline class="hover-video">
+                <source src="assets/conch.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="project-info">
+            <span class="project-tag">Max/MSP / Audio-Visual</span>
+            <div class="project-title">Musical Archeo-Conch</div>
+        </div>
+    </div>
+
+    <div class="project-card" onclick="openModal('modal-snowstorm')">
+        <div class="preview-box">
+            <video autoplay loop muted playsinline class="cover-media">
+                <source src="assets/snowposter.mp4" type="video/mp4">
+            </video>
+            <video loop muted playsinline class="hover-video">
+                <source src="assets/snowstorm.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="project-info">
+            <span class="project-tag">p5.js / Game Design</span>
+            <div class="project-title">A Murder at the Snowstorm Manor</div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-octopus" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('modal-octopus')">&times;</span>
+        <div class="modal-body">
+            <h2>Mimic Octopus</h2>
+            <p>I utilized TouchDesigner to create intricate octopus textures and integrated Arduino with a TCS3200 color sensor. The sensor captures the colors of the audience in real-time to manipulate the visual parameters within TouchDesigner, which are then projected back onto the octopus model, simulating the biological camouflage of a mimic octopus.</p>
+            
+            <h3>Demo Video</h3>
+            <video controls loop muted><source src="assets/octopus.mp4" type="video/mp4"></video>
+            
+            <h3>Process Shots</h3>
+            <div class="modal-grid">
+                <img src="assets/octopus1.JPG">
+                <img src="assets/octopus2.JPG">
+                <img src="assets/octopus3.JPG">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-conch" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('modal-conch')">&times;</span>
+        <div class="modal-body">
+            <h2>Musical Archeo-Conch</h2>
+            <p>This experiment explores the mapping relationship between invisible audio data and three-dimensional geometric forms. By constructing a fictional digital archaeological site named ‘archeo-conch’, I utilized Max/MSP to create a frequency-sensitive organism.</p>
+            
+            <h3>Demo Video</h3>
+            <video controls loop muted><source src="assets/conch.mp4" type="video/mp4"></video>
+            
+            <h3>Visual Documentation</h3>
+            <div class="modal-grid">
+                <img src="assets/conch1.jpg">
+                <img src="assets/conch2.jpg">
+                <img src="assets/conch3.jpg">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-snowstorm" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('modal-snowstorm')">&times;</span>
+        <div class="modal-body">
+            <h2>A Murder at the Snowstorm Manor</h2>
+            <p>An immersive, hand-drawn style detective mystery game built with p5.js, exploring narrative vulnerability and digital intervention within a snowy, isolated atmosphere.</p>
+            
+            <h3>Project Poster</h3>
+            <video controls loop muted><source src="assets/snowposter.mp4" type="video/mp4"></video>
+            
+            <h3>Gameplay Demo</h3>
+            <video controls loop muted><source src="assets/snowstorm.mp4" type="video/mp4"></video>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <span class="tbc">TO BE CONTINUED</span>
+    <p>&copy; 2026 NAN JIANG</p>
+</footer>
+
+<script>
+    function openModal(id) {
+        document.getElementById(id).style.display = "block";
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+
+    const cards = document.querySelectorAll('.project-card');
+    cards.forEach(card => {
+        const hv = card.querySelector('.hover-video');
+        card.addEventListener('mouseenter', () => { if(hv) hv.play(); });
+        card.addEventListener('mouseleave', () => { if(hv) { hv.pause(); hv.currentTime = 0; } });
+    });
+
+    window.onclick = function(e) {
+        if (e.target.className === 'modal') {
+            document.querySelectorAll('.modal').forEach(m => m.style.display = "none");
+            document.body.style.overflow = "auto";
+        }
+    }
+</script>
+</body>
+</html>
