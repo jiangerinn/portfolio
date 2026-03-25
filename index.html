@@ -106,14 +106,13 @@
             border: 1px solid #333;
         }
 
-        .close-btn { position: absolute; right: 25px; top: 15px; color: #fff; font-size: 45px; cursor: pointer; }
+        .close-btn { position: absolute; right: 25px; top: 15px; color: #fff; font-size: 45px; cursor: pointer; z-index: 10000; }
         .modal-body h2 { margin-top: 0; color: #fff; font-size: 2.2rem; margin-bottom: 10px; }
         .modal-body h3 { color: var(--accent-color); font-size: 1rem; margin-top: 40px; text-transform: uppercase; letter-spacing: 2px; }
         .modal-body p { color: #bbb; font-size: 1.05rem; line-height: 1.8; margin-bottom: 30px; max-width: 800px; }
         .modal-body video, .modal-body img { width: 100%; margin-bottom: 25px; border: 1px solid #222; }
         .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
-        /* To Be Continued Footer */
         footer {
             text-align: center;
             padding: 6rem 2rem;
@@ -137,6 +136,8 @@
 </header>
 
 <div class="container">
+
+    <!-- Mimic Octopus -->
     <div class="project-card" onclick="openModal('modal-octopus')">
         <div class="preview-box">
             <img src="assets/octopus1.JPG" class="cover-media">
@@ -150,6 +151,7 @@
         </div>
     </div>
 
+    <!-- Musical Archeo-Conch -->
     <div class="project-card" onclick="openModal('modal-conch')">
         <div class="preview-box">
             <img src="assets/conch1.jpg" class="cover-media"> 
@@ -163,6 +165,7 @@
         </div>
     </div>
 
+    <!-- Snowstorm -->
     <div class="project-card" onclick="openModal('modal-snowstorm')">
         <div class="preview-box">
             <video autoplay loop muted playsinline class="cover-media">
@@ -177,18 +180,51 @@
             <div class="project-title">A Murder at the Snowstorm Manor</div>
         </div>
     </div>
+
+    <!-- CollidE (New Project) -->
+    <div class="project-card" onclick="openModal('modal-collide')">
+        <div class="preview-box">
+            <img src="assets/cloth1.jpg" class="cover-media">
+            <video loop muted playsinline class="hover-video">
+                <source src="assets/conceptvideo.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="project-info">
+            <span class="project-tag">Digital Fashion / CLO3D</span>
+            <div class="project-title">CollidE</div>
+        </div>
+    </div>
 </div>
 
+<!-- Modal CollidE -->
+<div id="modal-collide" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('modal-collide')">&times;</span>
+        <div class="modal-body">
+            <h2>CollidE</h2>
+            <p>Based on the relationship between AI and humanity in the digital age, 'CollidE' explores how AI has ascended to a 'god-like' status in modern society. As individuals increasingly lose self-autonomy to algorithmic echo chambers, they become devotees of big data. The garment design draws inspiration from biblical depictions of angels and divinity—pale, rational, and overwhelmingly powerful.</p>
+            
+            <h3>Concept Video</h3>
+            <video controls loop muted><source src="assets/conceptvideo.mp4" type="video/mp4"></video>
+            
+            <h3>Visual Documentation</h3>
+            <div class="modal-grid">
+                <img src="assets/cloth1.jpg">
+                <img src="assets/cloth2.jpg">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Other Modals (Octopus, Conch, Snowstorm) -->
 <div id="modal-octopus" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal('modal-octopus')">&times;</span>
         <div class="modal-body">
             <h2>Mimic Octopus</h2>
             <p>I utilized TouchDesigner to create intricate octopus textures and integrated Arduino with a TCS3200 color sensor. The sensor captures the colors of the audience in real-time to manipulate the visual parameters within TouchDesigner, which are then projected back onto the octopus model, simulating the biological camouflage of a mimic octopus.</p>
-            
             <h3>Demo Video</h3>
             <video controls loop muted><source src="assets/octopus.mp4" type="video/mp4"></video>
-            
             <h3>Process Shots</h3>
             <div class="modal-grid">
                 <img src="assets/octopus1.JPG">
@@ -205,10 +241,8 @@
         <div class="modal-body">
             <h2>Musical Archeo-Conch</h2>
             <p>This experiment explores the mapping relationship between invisible audio data and three-dimensional geometric forms. By constructing a fictional digital archaeological site named ‘archeo-conch’, I utilized Max/MSP to create a frequency-sensitive organism.</p>
-            
             <h3>Demo Video</h3>
             <video controls loop muted><source src="assets/conch.mp4" type="video/mp4"></video>
-            
             <h3>Visual Documentation</h3>
             <div class="modal-grid">
                 <img src="assets/conch1.jpg">
@@ -225,10 +259,8 @@
         <div class="modal-body">
             <h2>A Murder at the Snowstorm Manor</h2>
             <p>An immersive, hand-drawn style detective mystery game built with p5.js, exploring narrative vulnerability and digital intervention within a snowy, isolated atmosphere.</p>
-            
             <h3>Project Poster</h3>
             <video controls loop muted><source src="assets/snowposter.mp4" type="video/mp4"></video>
-            
             <h3>Gameplay Demo</h3>
             <video controls loop muted><source src="assets/snowstorm.mp4" type="video/mp4"></video>
         </div>
