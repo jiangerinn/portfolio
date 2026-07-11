@@ -310,7 +310,29 @@
     </div>
 </header>
 
+
+
 <div class="container">
+
+    <!-- Galdrastafir -->
+    <div class="project-card" onclick="openModal('modal-Galdrastafir')">
+        <div class="preview-box">
+            <!-- 默认显示的静态封面图 (把图片放到 assets 文件夹里) -->
+            <img src="assets/Galdrastafir1.jpg" class="cover-media">
+            
+            <!-- 鼠标悬停时播放的预览短视频 (没有视频的话可以直接删掉整个 <video> 标签) -->
+            <video loop muted playsinline class="hover-video">
+                <source src="assets/Galdrastafirvideo.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="project-info">
+            <!-- 网页上显示的作品标题 -->
+            <div class="project-title">Galdrastafir</div>
+            <!-- 作品用到的技术或媒介标签 -->
+            <span class="project-tag">Arduino / java script</span>
+        </div>
+    </div>
+
     <!-- 1. Mimic Octopus -->
     <div class="project-card" onclick="openModal('modal-octopus')">
         <div class="preview-box">
@@ -368,6 +390,8 @@
             <span class="project-tag">Digital Fashion / CLO3D</span>
         </div>
     </div>
+
+
 </div>
 
 <!-- Modal: CollidE -->
@@ -450,6 +474,33 @@
         <p><a href="https://www.instagram.com/winterbabybluee/" target="_blank">IG: @winterbabybluee</a></p>
     </div>
 </footer>
+
+<!-- Modal: Galdrastafir -->
+<div id="modal-Galdrastafir" class="modal">
+    <!-- 注意：这里的 onclick="closeModal('modal-newproject')" 括号里的 ID 要和上面一致 -->
+    <span class="close-btn" onclick="closeModal('Galdrastafir')">&times;</span>
+    <div class="modal-content">
+        <div class="modal-body">
+            <!-- 弹窗内的大标题 -->
+            <h2>Galdrastafir</h2>
+            
+            <!-- 作品核心概念描述 -->
+            <p>Galdrastafir is an interactive installation exploring the intersection of physical tactility and digital mysticism. Using the 24 Elder Futhark runes as a medium, each symbol is deconstructed into a set of underlying geometric vectors.
+The interaction is distilled into a single, deliberate act: selecting a rune and placing it upon the altar. As the physical pieces settle, their digital coordinates collide and intertwine within a virtual void. Through this silent alignment, the algorithm initiates a ritual of reconstruction—rotating and merging the fragmented strokes into a unique, protective Icelandic stave (Galdrasta/ir). By stripping away complex interfaces, the work seeks to rediscover the sacred, hushed power of ancient rituals within the precision of electronic logic.</p>
+            
+            <!-- 弹窗内的项目长视频（选填） -->
+            <h3>Video</h3>
+            <video controls loop muted><source src="assets/Galdrastafirvideo.mp4" type="video/mp4"></video>
+            
+            <!-- 弹窗内的多图网格展示（选填） -->
+            <h3>Visual Documentation</h3>
+            <div class="modal-grid">
+                <img src="assets/Galdrastafir2.jpg">
+                <img src="assets/Galdrastafir3.jpg">
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     function openModal(id) {
