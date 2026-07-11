@@ -4,140 +4,310 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nan Jiang | Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- 引入外部现代无衬线字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #050505;
-            --text-color: #e0e0e0;
-            --accent-color: #00f2ff;
-            --card-bg: #111111;
+            /* Bleed 标志性的低饱和度当代配色：高级暖白纸张底色 + 深石墨色文字 */
+            --bg-color: #F4F3EF;       
+            --text-color: #1A1A1A;     
+            --accent-color: #E2503C;   
+            --border-color: #D1D0C9;   
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: 'Inter', sans-serif;
+            /* 优先应用 Century Gothic 几何体，营造干净、理性的视觉感 */
+            font-family: 'Century Gothic', 'Apple Gothic', 'Didact Gothic', sans-serif;
             margin: 0;
-            line-height: 1.6;
+            padding: 0;
+            letter-spacing: -0.01em;
         }
 
-        header {
-            max-width: 900px;
+        /* Bleed 风格分栏头部 */
+        header.bleed-header {
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 8rem 2rem 4rem;
+            padding: 8rem 3rem 5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
         }
 
-        .name-title { font-size: 3rem; font-weight: 600; color: #fff; margin: 0; letter-spacing: -1px; }
-        .bio { font-size: 1.1rem; color: #888; border-left: 2px solid var(--accent-color); padding-left: 1.5rem; margin-top: 1rem; max-width: 600px; }
+        .name-title { 
+            font-size: 4.5rem; 
+            font-weight: 700; 
+            color: var(--text-color); 
+            margin: 0; 
+            letter-spacing: -0.04em; 
+            text-transform: uppercase;
+            line-height: 0.9;
+        }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 2rem 5rem;
+        /* 介绍栏的双栏网格系统 */
+        .header-info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: 1fr 1fr; /* 1:1 对称 */
+            gap: 4rem;
+            max-width: 1000px; 
+        }
+
+        .column-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin: 0 0 1.2rem 0;
+            letter-spacing: 0.05em;
+        }
+
+        /* 较细、灰色的文本样式（完美复刻参考图） */
+        .info-list, .column-text {
+            font-size: 0.95rem;
+            font-weight: 300; /* 调细字重 */
+            color: #7A7973;   /* 高级灰色 */
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .info-list li {
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .column-text {
+            max-width: 450px;
+        }
+
+        /* 紧凑精致的三栏网格（优化后的用户体验） */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); 
+            border-left: 1px solid var(--border-color);
+        }
+
+        /* 响应式断点：不同屏幕下的网格适配 */
+        @media (max-width: 1024px) {
+            .container { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; border-right: 1px solid var(--border-color); }
+            header.bleed-header { padding: 5rem 2rem 3rem; gap: 3rem; }
+            .name-title { font-size: 3rem; }
+            .header-info-grid { grid-template-columns: 1fr; gap: 2.5rem; }
         }
 
         .project-card {
-            background: var(--card-bg);
+            background: transparent;
             cursor: pointer;
             position: relative;
-            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            border: 1px solid #222;
-            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            padding: 1.8rem; 
         }
 
-        .project-card:hover { transform: translateY(-10px); border-color: var(--accent-color); }
+        .project-card:hover { 
+            background-color: #ECEBE5; 
+        }
 
         .preview-box {
             width: 100%;
-            height: 250px;
+            padding-top: 85%; /* 横向偏方正比例，降低垂直滚动高度 */
             position: relative;
-            background: #000;
             overflow: hidden;
+            background: #E4E3DD;
+        }
+
+        .cover-media, .hover-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0; left: 0;
         }
 
         .cover-media {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0; left: 0;
             z-index: 2;
-            transition: opacity 0.4s ease;
+            filter: grayscale(10%); 
         }
 
-        .hover-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0; left: 0;
-            z-index: 1;
-        }
+        .hover-video { z-index: 1; }
 
         .project-card:hover .cover-media { opacity: 0; }
 
-        .project-info { padding: 1.5rem; }
-        .project-tag { font-size: 0.7rem; color: var(--accent-color); text-transform: uppercase; letter-spacing: 1px; }
-        .project-title { font-size: 1.3rem; color: #fff; margin-top: 0.5rem; }
+        .project-info { 
+            margin-top: 1.2rem; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 0.3rem;
+        }
+        
+        .project-title { 
+            font-size: 1.2rem; 
+            font-weight: 700; 
+            color: var(--text-color); 
+            text-transform: uppercase;
+        }
+        
+        .project-tag { 
+            font-size: 0.75rem; 
+            color: #777; 
+            font-weight: 400;
+            letter-spacing: 0.03em;
+        }
 
-        /* Modal */
+        /* 全屏精致磨砂 Modal 弹窗 */
         .modal {
             display: none;
             position: fixed;
             z-index: 9999;
             left: 0; top: 0;
             width: 100%; height: 100%;
-            background: rgba(0,0,0,0.96);
-            backdrop-filter: blur(15px);
+            background: rgba(244, 243, 239, 0.98); 
+            backdrop-filter: blur(10px);
         }
 
         .modal-content {
             position: relative;
-            background: #0a0a0a;
-            margin: 2% auto;
-            padding: 50px 40px;
-            width: 85%;
+            background: transparent;
+            margin: 0 auto;
+            padding: 6rem 3rem;
+            width: 100%;
             max-width: 1000px;
-            max-height: 85vh;
+            max-height: 100vh;
             overflow-y: auto;
-            border: 1px solid #333;
         }
 
-        .close-btn { position: absolute; right: 25px; top: 15px; color: #fff; font-size: 45px; cursor: pointer; z-index: 10000; }
-        .modal-body h2 { margin-top: 0; color: #fff; font-size: 2.2rem; margin-bottom: 10px; }
-        .modal-body h3 { color: var(--accent-color); font-size: 1rem; margin-top: 40px; text-transform: uppercase; letter-spacing: 2px; }
-        .modal-body p { color: #bbb; font-size: 1.05rem; line-height: 1.8; margin-bottom: 30px; max-width: 800px; }
-        .modal-body video, .modal-body img { width: 100%; margin-bottom: 25px; border: 1px solid #222; }
-        .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .close-btn { 
+            position: fixed; 
+            right: 3rem; top: 3rem; 
+            color: var(--text-color); 
+            font-size: 2.5rem; 
+            font-weight: 300;
+            cursor: pointer; 
+            z-index: 10000; 
+            line-height: 1;
+        }
+        
+        .close-btn:hover { color: var(--accent-color); }
 
+        .modal-body h2 { 
+            font-size: 3rem; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            color: var(--text-color); 
+            margin: 0 0 2rem 0;
+            letter-spacing: -0.03em;
+        }
+        
+        .modal-body p { 
+            color: #333; 
+            font-size: 1.1rem; 
+            line-height: 1.6; 
+            margin-bottom: 3rem; 
+            max-width: 800px; 
+        }
+        
+        .modal-body h3 { 
+            font-size: 0.85rem; 
+            color: #777; 
+            text-transform: uppercase; 
+            letter-spacing: 0.1em; 
+            margin-top: 3rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+        
+        .modal-body video, .modal-body img { 
+            width: 100%; 
+            margin-bottom: 2rem; 
+        }
+        
+        .modal-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 2rem; 
+        }
+
+        @media (max-width: 768px) { .modal-grid { grid-template-columns: 1fr; } }
+
+        /* Footer */
         footer {
-            text-align: center;
-            padding: 6rem 2rem;
-            color: #444;
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: left;
+            padding: 6rem 3rem;
+            border-top: 1px solid var(--border-color);
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
         }
+        
         .tbc {
-            font-size: 1.2rem;
-            font-style: italic;
-            letter-spacing: 4px;
-            color: #666;
-            margin-bottom: 1rem;
-            display: block;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-color);
         }
+        
+        footer p { margin: 0; color: #666; font-size: 0.85rem; }
+        footer a { 
+            color: var(--text-color); 
+            text-decoration: none; 
+            font-weight: 700;
+            border-bottom: 2px solid var(--text-color);
+            padding-bottom: 2px;
+        }
+        footer a:hover { color: var(--accent-color); border-color: var(--accent-color); }
     </style>
 </head>
 <body>
 
-<header>
-    <h1 class="name-title">Nan Jiang</h1>
-    <p class="bio">Goldsmiths CompArts 26' <br> Practice-based Research | Exploring the interplay between physical sensors and generative digital organisms.</p>
+<!-- 升级版介绍栏区域 -->
+<header class="bleed-header">
+    <div class="header-main">
+        <h1 class="name-title">Nan Jiang</h1>
+    </div>
+    
+    <div class="header-info-grid">
+        <!-- 左栏：LATELY; -->
+        <div class="info-column">
+            <h2 class="column-title">LATELY;</h2>
+            <ul class="info-list">
+                <li>&rarr; Goldsmiths CompArts 26'</li>
+                <li>&rarr; Practice-based Research</li>
+                <li>&rarr; London, UK</li>
+            </ul>
+        </div>
+
+        <!-- 右栏：RESEARCH; -->
+        <div class="info-column">
+            <h2 class="column-title">RESEARCH;</h2>
+            <p class="column-text">
+                Exploring the subtle interplay between physical sensors and generative digital organisms. 
+                Investigating algorithmic ecosystems, responsive environments, and the boundary 
+                between organic and synthetic forms.
+            </p>
+        </div>
+    </div>
 </header>
 
 <div class="container">
-
-    <!-- Mimic Octopus -->
+    <!-- 1. Mimic Octopus -->
     <div class="project-card" onclick="openModal('modal-octopus')">
         <div class="preview-box">
             <img src="assets/octopus1.JPG" class="cover-media">
@@ -146,12 +316,12 @@
             </video>
         </div>
         <div class="project-info">
-            <span class="project-tag">TouchDesigner / Arduino</span>
             <div class="project-title">Mimic Octopus</div>
+            <span class="project-tag">TouchDesigner / Arduino</span>
         </div>
     </div>
 
-    <!-- Musical Archeo-Conch -->
+    <!-- 2. Musical Archeo-Conch -->
     <div class="project-card" onclick="openModal('modal-conch')">
         <div class="preview-box">
             <img src="assets/conch1.jpg" class="cover-media"> 
@@ -160,12 +330,12 @@
             </video>
         </div>
         <div class="project-info">
-            <span class="project-tag">Max/MSP / Audio-Visual</span>
             <div class="project-title">Musical Archeo-Conch</div>
+            <span class="project-tag">Max/MSP / Audio-Visual</span>
         </div>
     </div>
 
-    <!-- Snowstorm -->
+    <!-- 3. Snowstorm -->
     <div class="project-card" onclick="openModal('modal-snowstorm')">
         <div class="preview-box">
             <video autoplay loop muted playsinline class="cover-media">
@@ -176,12 +346,12 @@
             </video>
         </div>
         <div class="project-info">
+            <div class="project-title">Snowstorm Manor</div>
             <span class="project-tag">p5.js / Game Design</span>
-            <div class="project-title">A Murder at the Snowstorm Manor</div>
         </div>
     </div>
 
-    <!-- CollidE (New Project) -->
+    <!-- 4. CollidE (已经按照要求排在最后) -->
     <div class="project-card" onclick="openModal('modal-collide')">
         <div class="preview-box">
             <img src="assets/cloth1.jpg" class="cover-media">
@@ -190,23 +360,21 @@
             </video>
         </div>
         <div class="project-info">
-            <span class="project-tag">Digital Fashion / CLO3D</span>
             <div class="project-title">CollidE</div>
+            <span class="project-tag">Digital Fashion / CLO3D</span>
         </div>
     </div>
 </div>
 
-<!-- Modal CollidE -->
+<!-- Modal: CollidE -->
 <div id="modal-collide" class="modal">
+    <span class="close-btn" onclick="closeModal('modal-collide')">&times;</span>
     <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('modal-collide')">&times;</span>
         <div class="modal-body">
             <h2>CollidE</h2>
             <p>Based on the relationship between AI and humanity in the digital age, 'CollidE' explores how AI has ascended to a 'god-like' status in modern society. As individuals increasingly lose self-autonomy to algorithmic echo chambers, they become devotees of big data. The garment design draws inspiration from biblical depictions of angels and divinity—pale, rational, and overwhelmingly powerful.</p>
-            
             <h3>Concept Video</h3>
             <video controls loop muted><source src="assets/conceptvideo.mp4" type="video/mp4"></video>
-            
             <h3>Visual Documentation</h3>
             <div class="modal-grid">
                 <img src="assets/cloth1.jpg">
@@ -216,10 +384,10 @@
     </div>
 </div>
 
-<!-- Other Modals (Octopus, Conch, Snowstorm) -->
+<!-- Modal: Octopus -->
 <div id="modal-octopus" class="modal">
+    <span class="close-btn" onclick="closeModal('modal-octopus')">&times;</span>
     <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('modal-octopus')">&times;</span>
         <div class="modal-body">
             <h2>Mimic Octopus</h2>
             <p>I utilized TouchDesigner to create intricate octopus textures and integrated Arduino with a TCS3200 color sensor. The sensor captures the colors of the audience in real-time to manipulate the visual parameters within TouchDesigner, which are then projected back onto the octopus model, simulating the biological camouflage of a mimic octopus.</p>
@@ -235,9 +403,10 @@
     </div>
 </div>
 
+<!-- Modal: Conch -->
 <div id="modal-conch" class="modal">
+    <span class="close-btn" onclick="closeModal('modal-conch')">&times;</span>
     <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('modal-conch')">&times;</span>
         <div class="modal-body">
             <h2>Musical Archeo-Conch</h2>
             <p>This experiment explores the mapping relationship between invisible audio data and three-dimensional geometric forms. By constructing a fictional digital archaeological site named ‘archeo-conch’, I utilized Max/MSP to create a frequency-sensitive organism.</p>
@@ -253,9 +422,10 @@
     </div>
 </div>
 
+<!-- Modal: Snowstorm -->
 <div id="modal-snowstorm" class="modal">
+    <span class="close-btn" onclick="closeModal('modal-snowstorm')">&times;</span>
     <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('modal-snowstorm')">&times;</span>
         <div class="modal-body">
             <h2>A Murder at the Snowstorm Manor</h2>
             <p>An immersive, hand-drawn style detective mystery game built with p5.js, exploring narrative vulnerability and digital intervention within a snowy, isolated atmosphere.</p>
@@ -268,9 +438,13 @@
 </div>
 
 <footer>
-    <span class="tbc">TO BE CONTINUED</span>
-    <p>&copy; 2026 NAN JIANG</p>
-    <p><a href="https://www.instagram.com/winterbabybluee/" target="_blank" style="text-decoration: none; color: inherit; border-bottom: 1px solid #555;">IG: @winterbabybluee</a></p>
+    <div>
+        <span class="tbc">To Be Continued</span>
+        <p>&copy; 2026 NAN JIANG</p>
+    </div>
+    <div>
+        <p><a href="https://www.instagram.com/winterbabybluee/" target="_blank">IG: @winterbabybluee</a></p>
+    </div>
 </footer>
 
 <script>
