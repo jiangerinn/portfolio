@@ -314,6 +314,20 @@
 
 <div class="container">
 
+    <!-- pulse of the cosmos -->
+    <div class="project-card" onclick="openModal('modal-pulse of the cosmos')">
+        <div class="preview-box">
+            <img src="assets/cosmos1.jpg" class="cover-media">
+            <video loop muted playsinline class="hover-video">
+                <source src="assets/cosmos1.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="project-info">
+            <div class="project-title">Pulse of the COSMOS</div>
+            <span class="project-tag">Arduino / openFrameworks</span>
+        </div>
+    </div>
+
     <!-- Galdrastafir -->
     <div class="project-card" onclick="openModal('modal-Galdrastafir')">
         <div class="preview-box">
@@ -390,6 +404,8 @@
             <span class="project-tag">Digital Fashion / CLO3D</span>
         </div>
     </div>
+
+    
 
 
 </div>
@@ -497,6 +513,40 @@ The interaction is distilled into a single, deliberate act: selecting a rune and
             <div class="modal-grid">
                 <img src="assets/Galdrastafir2.jpg">
                 <img src="assets/Galdrastafir3.jpg">
+                <img src="assets/Galdrastafir4.jpg">
+                <img src="assets/Galdrastafir5.jpg">
+                <img src="assets/Galdrastafir6.jpg">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: pulse of the cosmos -->
+<div id="modal-pulse of the cosmos" class="modal">
+    <!-- 注意：这里的 onclick="closeModal('modal-newproject')" 括号里的 ID 要和上面一致 -->
+    <span class="close-btn" onclick="closeModal('modal-pulse of the cosmos')">&times;</span>
+    <div class="modal-content">
+        <div class="modal-body">
+            <!-- 弹窗内的大标题 -->
+            <h2>Pulse of the COSMOS</h2>
+            
+            <!-- 作品核心概念描述 -->
+            <p>This installation turns its attention to cosmic rays, using a solidified ‘foam’ structure to lend this abstract natural force a fateful, material form. The theme of the work is rooted in a core scientific principle of modern archaeology: it is precisely the cosmic rays—originating from deep space and silently bombarding the atmosphere—that permanently imprint the carbon-14 isotope into the physical structure of all living organisms; death, meanwhile, signifies a permanent ‘disconnection’ from this cosmic synchrony, thereby initiating the solitary and irreversible journey of carbon-14’s decay within th e body.
+
+The installation utilises C++,openFrameworks to monitor cosmic ray data in real time, transforming supernova explosions in deep space into silent, physical transformations. By controlling the installation in real time via Arduino, the artist steps back into the background, allowing the cosmos to dwell directly within the installation and reshape its form. At its centre lies a bubble crafted from resin, serving as a metaphor for life: life is fragile and fleeting, like a bubble; yet when all these bubbles come together, they are not so fragile after all. All plants and animals share a fleeting mutual aid, and life remains beautiful.
+</p>
+            
+            <!-- 弹窗内的项目长视频（选填） -->
+            <h3>Video</h3>
+            <video controls loop muted><source src="assets/cosmos1.mp4" type="video/mp4"></video>
+            
+            <!-- 弹窗内的多图网格展示（选填） -->
+            <h3>Visual Documentation</h3>
+            <div class="modal-grid">
+                <img src="assets/cosmos1.jpg">
+                <img src="assets/cosmos2.jpg">
+                <img src="assets/cosmos3.jpg">
+                <img src="assets/cosmos4.jpg">
             </div>
         </div>
     </div>
