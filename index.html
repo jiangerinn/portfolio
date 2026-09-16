@@ -4,183 +4,304 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nan Jiang | Portfolio</title>
-    <!-- 引入外部现代无衬线字体 -->
     <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
     <style>
+        /* ------------------------------------------------------------
+           全局 — 参考 Bleed 工作室的极简、当代气质
+        ------------------------------------------------------------ */
         :root {
-            /* Bleed 标志性的低饱和度当代配色：高级暖白纸张底色 + 深石墨色文字 */
-            --bg-color: #F4F3EF;       
-            --text-color: #1A1A1A;     
-            --accent-color: #E2503C;   
-            --border-color: #D1D0C9;   
+            --bg: #F4F3EF;
+            --ink: #1A1A1A;
+            --muted: #7A7973;
+            --border: #D1D0C9;
+            --accent: #E2503C;
+            --card-bg-hover: #ECEBE5;
         }
 
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            /* 优先应用 Century Gothic 几何体，营造干净、理性的视觉感 */
+            background-color: var(--bg);
+            color: var(--ink);
             font-family: 'Century Gothic', 'Apple Gothic', 'Didact Gothic', sans-serif;
-            margin: 0;
-            padding: 0;
             letter-spacing: -0.01em;
+            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Bleed 风格分栏头部 */
-        header.bleed-header {
+        /* ------------------------------------------------------------
+           顶部 Banner — 动态名称/导航切换
+        ------------------------------------------------------------ */
+        .bleed-banner {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 8rem 3rem 5rem;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            gap: 4rem;
+            padding: 6rem 3rem 2.5rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            cursor: default;
         }
 
-        .name-title { 
-            font-size: 4.5rem; 
-            font-weight: 700; 
-            color: var(--text-color); 
-            margin: 0; 
-            letter-spacing: -0.04em; 
+        /* 名字（默认显示） */
+        .banner-name {
+            font-size: 5.2rem;
+            font-weight: 700;
             text-transform: uppercase;
+            letter-spacing: -0.04em;
             line-height: 0.9;
+            color: var(--ink);
+            opacity: 1;
+            pointer-events: none;  /* 名字本身不可点击，鼠标事件由父级处理 */
         }
 
-        /* 介绍栏的双栏网格系统 */
-        .header-info-grid {
+        /* 导航菜单（悬停时显示） */
+        .banner-nav {
+            position: absolute;
+            top: 6rem;
+            left: 3rem;
+            display: flex;
+            flex-direction: row;
+            gap: 3rem;
+            font-size: 5.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.04em;
+            line-height: 0.9;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .banner-nav a {
+            color: var(--ink);
+            text-decoration: none;
+            border-bottom: 4px solid transparent;
+            padding-bottom: 4px;
+            pointer-events: auto;  /* 导航链接可点击 */
+            white-space: nowrap;
+        }
+
+        .banner-nav a:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        /* hover 切换效果 */
+        .bleed-banner:hover .banner-name {
+            opacity: 0;
+        }
+
+        .bleed-banner:hover .banner-nav {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* 小屏适配 */
+        @media (max-width: 900px) {
+            .bleed-banner {
+                padding: 4rem 2rem 1.8rem;
+            }
+            .banner-name,
+            .banner-nav {
+                font-size: 2.8rem;
+                gap: 1.5rem;
+            }
+            .banner-nav {
+                top: 4rem;
+                left: 2rem;
+                flex-wrap: wrap;
+                row-gap: 0.3rem;
+            }
+        }
+        @media (max-width: 600px) {
+            .banner-name,
+            .banner-nav {
+                font-size: 2rem;
+            }
+            .banner-nav {
+                top: 4rem;
+                left: 2rem;
+                flex-direction: column;
+                gap: 0.1rem;
+            }
+        }
+
+        /* ------------------------------------------------------------
+           介绍 / 分类说明 — 简洁双栏
+        ------------------------------------------------------------ */
+        .intro-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 3rem 2rem;
             display: grid;
-            grid-template-columns: 1fr 1fr; /* 1:1 对称 */
+            grid-template-columns: 1fr 1fr;
             gap: 4rem;
-            max-width: 1000px; 
+            border-bottom: 1px solid var(--border);
         }
 
-        .column-title {
+        .intro-block h2 {
             font-size: 0.9rem;
             font-weight: 700;
-            color: var(--text-color);
-            margin: 0 0 1.2rem 0;
             letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 1rem;
         }
 
-        /* 较细、灰色的文本样式（完美复刻参考图） */
-        .info-list, .column-text {
+        .intro-block p,
+        .intro-block ul {
             font-size: 0.95rem;
-            font-weight: 300; /* 调细字重 */
-            color: #7A7973;   /* 高级灰色 */
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.7;
             list-style: none;
         }
 
-        .info-list li {
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.01em;
+        .intro-block li {
+            margin-bottom: 0.2rem;
         }
 
-        .column-text {
-            max-width: 450px;
+        .intro-block a {
+            color: var(--ink);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border);
+        }
+        .intro-block a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
-        /* 紧凑精致的三栏网格（优化后的用户体验） */
-        .container {
+        @media (max-width: 768px) {
+            .intro-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 2rem 2rem 1.5rem;
+            }
+        }
+
+        /* ------------------------------------------------------------
+           作品网格 — 三列 / 两列 / 单列
+        ------------------------------------------------------------ */
+        .work-grid {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0;
             display: grid;
-            grid-template-columns: repeat(3, 1fr); 
-            border-left: 1px solid var(--border-color);
+            grid-template-columns: repeat(3, 1fr);
+            border-left: 1px solid var(--border);
         }
 
-        /* 响应式断点：不同屏幕下的网格适配 */
         @media (max-width: 1024px) {
-            .container { grid-template-columns: repeat(2, 1fr); }
+            .work-grid { grid-template-columns: repeat(2, 1fr); }
         }
-        @media (max-width: 768px) {
-            .container { grid-template-columns: 1fr; border-right: 1px solid var(--border-color); }
-            header.bleed-header { padding: 5rem 2rem 3rem; gap: 3rem; }
-            .name-title { font-size: 3rem; }
-            .header-info-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+        @media (max-width: 640px) {
+            .work-grid { grid-template-columns: 1fr; border-right: 1px solid var(--border); }
         }
 
-        .project-card {
+        .work-card {
             background: transparent;
+            border-bottom: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            padding: 1.8rem;
             cursor: pointer;
             position: relative;
-            border-bottom: 1px solid var(--border-color);
-            border-right: 1px solid var(--border-color);
-            padding: 1.8rem; 
         }
 
-        .project-card:hover { 
-            background-color: #ECEBE5; 
+        .work-card:hover {
+            background-color: var(--card-bg-hover);
         }
 
         .preview-box {
             width: 100%;
-            padding-top: 85%; /* 横向偏方正比例，降低垂直滚动高度 */
+            padding-top: 85%;
             position: relative;
             overflow: hidden;
             background: #E4E3DD;
         }
 
-        .cover-media, .hover-video {
+        .cover-media,
+        .hover-video {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            position: absolute;
-            top: 0; left: 0;
         }
 
         .cover-media {
             z-index: 2;
-            filter: grayscale(10%); 
+            filter: grayscale(10%);
         }
 
-        .hover-video { z-index: 1; }
+        .hover-video {
+            z-index: 1;
+        }
 
-        .project-card:hover .cover-media { opacity: 0; }
+        .work-card:hover .cover-media {
+            opacity: 0;
+        }
 
-        .project-info { 
-            margin-top: 1.2rem; 
-            display: flex; 
-            flex-direction: column; 
+        .work-info {
+            margin-top: 1.2rem;
+            display: flex;
+            flex-direction: column;
             gap: 0.3rem;
         }
-        
-        .project-title { 
-            font-size: 1.2rem; 
-            font-weight: 700; 
-            color: var(--text-color); 
+
+        .work-title {
+            font-size: 1.2rem;
+            font-weight: 700;
             text-transform: uppercase;
-        }
-        
-        .project-tag { 
-            font-size: 0.75rem; 
-            color: #777; 
-            font-weight: 400;
-            letter-spacing: 0.03em;
+            color: var(--ink);
+            letter-spacing: -0.02em;
         }
 
-        /* 全屏精致磨砂 Modal 弹窗 */
+        .work-tag {
+            font-size: 0.75rem;
+            color: #777;
+            font-weight: 400;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        /* ------------------------------------------------------------
+           分类标签（用于区分 艺术装置 / 视觉设计）
+        ------------------------------------------------------------ */
+        .category-heading {
+            grid-column: 1 / -1;
+            padding: 2.5rem 1.8rem 0.8rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            border-bottom: 1px solid var(--border);
+            background: var(--bg);
+            margin: 0;
+        }
+
+        /* 让分类标题占满整行，但卡片仍然按网格排列 */
+        .category-heading:first-of-type {
+            padding-top: 1rem;
+        }
+
+        /* ------------------------------------------------------------
+           模态弹窗 — 磨砂、干净
+        ------------------------------------------------------------ */
         .modal {
             display: none;
             position: fixed;
             z-index: 9999;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            background: rgba(244, 243, 239, 0.98); 
-            backdrop-filter: blur(10px);
+            inset: 0;
+            background: rgba(244, 243, 239, 0.98);
+            backdrop-filter: blur(12px);
         }
 
         .modal-content {
             position: relative;
-            background: transparent;
             margin: 0 auto;
             padding: 6rem 3rem;
             width: 100%;
@@ -189,194 +310,229 @@
             overflow-y: auto;
         }
 
-        .close-btn { 
-            position: fixed; 
-            right: 3rem; top: 3rem; 
-            color: var(--text-color); 
-            font-size: 2.5rem; 
+        .close-btn {
+            position: fixed;
+            right: 3rem;
+            top: 3rem;
+            font-size: 2.5rem;
             font-weight: 300;
-            cursor: pointer; 
-            z-index: 10000; 
+            color: var(--ink);
+            cursor: pointer;
+            z-index: 10000;
             line-height: 1;
         }
-        
-        .close-btn:hover { color: var(--accent-color); }
 
-        .modal-body h2 { 
-            font-size: 3rem; 
-            font-weight: 700; 
-            text-transform: uppercase; 
-            color: var(--text-color); 
-            margin: 0 0 2rem 0;
+        .close-btn:hover {
+            color: var(--accent);
+        }
+
+        .modal-body h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            text-transform: uppercase;
             letter-spacing: -0.03em;
-        }
-        
-        .modal-body p { 
-            color: #55544F;             /* 高级深灰，比纯黑更柔和 */
-            font-family: 'Courier New', Courier, monospace; /* 切换为图2的经典等宽字体 */
-            font-style: italic;         /* 完美的等宽斜体效果 */
-            font-size: 1.05rem; 
-            font-weight: 400; 
-            line-height: 1.6; 
-            margin-bottom: 3rem; 
-            max-width: 850px; 
-            letter-spacing: -0.01em;
-        }
-        
-        .modal-body h3 { 
-            font-size: 0.85rem; 
-            color: #777; 
-            text-transform: uppercase; 
-            letter-spacing: 0.1em; 
-            margin-top: 3rem;
-            border-top: 1px solid var(--border-color);
-            padding-top: 1rem;
-        }
-        
-        .modal-body video, .modal-body img { 
-            width: 100%; 
-            margin-bottom: 2rem; 
-        }
-        
-        .modal-grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 2rem; 
+            margin-bottom: 2rem;
         }
 
-        @media (max-width: 768px) { .modal-grid { grid-template-columns: 1fr; } }
+        .modal-body p {
+            font-family: 'Courier New', Courier, monospace;
+            font-style: italic;
+            font-size: 1.05rem;
+            line-height: 1.65;
+            color: #55544F;
+            margin-bottom: 2.5rem;
+            max-width: 850px;
+        }
 
-        /* Footer */
+        .modal-body h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #777;
+            border-top: 1px solid var(--border);
+            padding-top: 1.2rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-body video,
+        .modal-body img {
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content { padding: 4rem 1.5rem; }
+            .modal-body h2 { font-size: 2rem; }
+            .modal-grid { grid-template-columns: 1fr; }
+            .close-btn { right: 1.5rem; top: 1.5rem; }
+        }
+
+        /* ------------------------------------------------------------
+           页脚
+        ------------------------------------------------------------ */
         footer {
             max-width: 1400px;
             margin: 0 auto;
-            text-align: left;
-            padding: 6rem 3rem;
-            border-top: 1px solid var(--border-color);
-            border-left: 1px solid var(--border-color);
-            border-right: 1px solid var(--border-color);
+            padding: 4rem 3rem 5rem;
+            border-top: 1px solid var(--border);
+            border-left: 1px solid var(--border);
+            border-right: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 2rem;
         }
-        
+
         .tbc {
             font-size: 1.3rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            color: var(--text-color);
         }
-        
-        footer p { margin: 0; color: #666; font-size: 0.85rem; }
-        footer a { 
-            color: var(--text-color); 
-            text-decoration: none; 
+
+        footer p {
+            font-size: 0.85rem;
+            color: #666;
+            margin: 0;
+        }
+
+        footer a {
+            color: var(--ink);
+            text-decoration: none;
             font-weight: 700;
-            border-bottom: 2px solid var(--text-color);
+            border-bottom: 2px solid var(--ink);
             padding-bottom: 2px;
         }
-        footer a:hover { color: var(--accent-color); border-color: var(--accent-color); }
+
+        footer a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        @media (max-width: 600px) {
+            footer {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 3rem 2rem;
+            }
+        }
     </style>
 </head>
 <body>
 
-<!-- 升级版介绍栏区域 -->
-<header class="bleed-header">
-    <div class="header-main">
-        <h1 class="name-title">Nan Jiang</h1>
-    </div>
-    
-    <div class="header-info-grid">
-        <!-- 左栏：LATELY; -->
-        <div class="info-column">
-            <h2 class="column-title">LATELY;</h2>
-            <ul class="info-list">
-                <li>&rarr; Goldsmiths CompArts 26'</li>
-                <li>&rarr; Practice-based Research</li>
-                <li>&rarr; London, UK</li>
-            </ul>
-        </div>
-
-        <!-- 右栏：RESEARCH; -->
-        <div class="info-column">
-            <h2 class="column-title">RESEARCH;</h2>
-            <p class="column-text">
-                Exploring the subtle interplay between physical sensors and generative digital organisms. 
-                Investigating algorithmic ecosystems, responsive environments, and the boundary 
-                between organic and synthetic forms.
-            </p>
-        </div>
-    </div>
+<!-- ============================================================
+     BANNER — 名字 / 导航切换
+============================================================ -->
+<header class="bleed-banner">
+    <div class="banner-name">Nan Jiang</div>
+    <nav class="banner-nav">
+        <a href="#portfolio">PORTFOLIO</a>
+        <a href="#about">ABOUT</a>
+        <a href="#contact">CONTACT</a>
+    </nav>
 </header>
 
+<!-- ============================================================
+     简介 / 分类概览
+============================================================ -->
+<section class="intro-grid" id="about">
+    <div class="intro-block">
+        <h2>LATELY;</h2>
+        <ul>
+            <li>&rarr; Goldsmiths CompArts 26'</li>
+            <li>&rarr; Practice-based Research</li>
+            <li>&rarr; London, UK</li>
+            <li>&rarr; Hangzhou, China</li>
+        </ul>
+    </div>
+    <div class="intro-block">
+        <h2>ABOUT;</h2>
+        <p>
+            Nan Jiang is an interdisciplinary artist and designer whose practice spans physical computing, 
+            generative systemsn and visual design. She graduated from Goldsmiths, University of London, with a Master’s degree in Computational Art. Her work investigates the subtle interplay between physical 
+            sensors and generative digital organisms, algorithmic ecosystems, and the boundary between 
+            organic and synthetic forms.
+        </p>
+    </div>
+</section>
 
+<!-- ============================================================
+     PORTFOLIO — 艺术装置 / 视觉设计 分类展示
+============================================================ -->
+<div class="work-grid" id="portfolio">
 
-<div class="container">
+    <!-- ---------- 分类：艺术装置 ---------- -->
+    <h3 class="category-heading">ART INSTALLATIONS</h3>
 
-    <!-- pulse of the cosmos -->
-    <div class="project-card" onclick="openModal('modal-pulse of the cosmos')">
+    <!-- Pulse of the Cosmos -->
+    <div class="work-card" onclick="openModal('modal-pulse')">
         <div class="preview-box">
-            <img src="assets/cosmos1.jpg" class="cover-media">
+            <img src="assets/cosmos1.jpg" class="cover-media" alt="Pulse of the Cosmos">
             <video loop muted playsinline class="hover-video">
                 <source src="assets/cosmos1.mp4" type="video/mp4">
             </video>
         </div>
-        <div class="project-info">
-            <div class="project-title">Pulse of the COSMOS</div>
-            <span class="project-tag">Arduino / openFrameworks</span>
+        <div class="work-info">
+            <div class="work-title">Pulse of the COSMOS</div>
+            <span class="work-tag">Arduino / openFrameworks</span>
         </div>
     </div>
 
     <!-- Galdrastafir -->
-    <div class="project-card" onclick="openModal('modal-Galdrastafir')">
+    <div class="work-card" onclick="openModal('modal-galdrastafir')">
         <div class="preview-box">
-            <!-- 默认显示的静态封面图 (把图片放到 assets 文件夹里) -->
-            <img src="assets/Galdrastafir1.jpg" class="cover-media">
-            
-            <!-- 鼠标悬停时播放的预览短视频 (没有视频的话可以直接删掉整个 <video> 标签) -->
+            <img src="assets/Galdrastafir1.jpg" class="cover-media" alt="Galdrastafir">
             <video loop muted playsinline class="hover-video">
                 <source src="assets/Galdrastafirvideo.mp4" type="video/mp4">
             </video>
         </div>
-        <div class="project-info">
-            <!-- 网页上显示的作品标题 -->
-            <div class="project-title">Galdrastafir</div>
-            <!-- 作品用到的技术或媒介标签 -->
-            <span class="project-tag">Arduino / java script</span>
+        <div class="work-info">
+            <div class="work-title">Galdrastafir</div>
+            <span class="work-tag">Arduino / JavaScript</span>
         </div>
     </div>
 
-    <!-- 1. Mimic Octopus -->
-    <div class="project-card" onclick="openModal('modal-octopus')">
+    <!-- Mimic Octopus -->
+    <div class="work-card" onclick="openModal('modal-octopus')">
         <div class="preview-box">
-            <img src="assets/octopus1.JPG" class="cover-media">
+            <img src="assets/octopus1.JPG" class="cover-media" alt="Mimic Octopus">
             <video loop muted playsinline class="hover-video">
                 <source src="assets/octopus.mp4" type="video/mp4">
             </video>
         </div>
-        <div class="project-info">
-            <div class="project-title">Mimic Octopus</div>
-            <span class="project-tag">TouchDesigner / Arduino</span>
+        <div class="work-info">
+            <div class="work-title">Mimic Octopus</div>
+            <span class="work-tag">TouchDesigner / Arduino</span>
         </div>
     </div>
 
-    <!-- 2. Musical Archeo-Conch -->
-    <div class="project-card" onclick="openModal('modal-conch')">
+    <!-- Musical Archeo-Conch -->
+    <div class="work-card" onclick="openModal('modal-conch')">
         <div class="preview-box">
-            <img src="assets/conch1.jpg" class="cover-media"> 
+            <img src="assets/conch1.jpg" class="cover-media" alt="Musical Archeo-Conch">
             <video loop muted playsinline class="hover-video">
                 <source src="assets/conch.mp4" type="video/mp4">
             </video>
         </div>
-        <div class="project-info">
-            <div class="project-title">Musical Archeo-Conch</div>
-            <span class="project-tag">Max/MSP / Audio-Visual</span>
+        <div class="work-info">
+            <div class="work-title">Musical Archeo-Conch</div>
+            <span class="work-tag">Max/MSP / Audio-Visual</span>
         </div>
     </div>
 
-    <!-- 3. Snowstorm -->
-    <div class="project-card" onclick="openModal('modal-snowstorm')">
+    <!-- ---------- 分类：视觉设计 ---------- -->
+    <h3 class="category-heading">VISUAL DESIGN</h3>
+
+    <!-- Snowstorm Manor -->
+    <div class="work-card" onclick="openModal('modal-snowstorm')">
         <div class="preview-box">
             <video autoplay loop muted playsinline class="cover-media">
                 <source src="assets/snowposter.mp4" type="video/mp4">
@@ -385,56 +541,97 @@
                 <source src="assets/snowstorm.mp4" type="video/mp4">
             </video>
         </div>
-        <div class="project-info">
-            <div class="project-title">Snowstorm Manor</div>
-            <span class="project-tag">p5.js / Game Design</span>
+        <div class="work-info">
+            <div class="work-title">Snowstorm Manor</div>
+            <span class="work-tag">p5.js / Game Design</span>
         </div>
     </div>
 
-    <!-- 4. CollidE (已经按照要求排在最后) -->
-    <div class="project-card" onclick="openModal('modal-collide')">
+    <!-- CollidE -->
+    <div class="work-card" onclick="openModal('modal-collide')">
         <div class="preview-box">
-            <img src="assets/cloth1.jpg" class="cover-media">
+            <img src="assets/cloth1.jpg" class="cover-media" alt="CollidE">
             <video loop muted playsinline class="hover-video">
                 <source src="assets/conceptvideo.mp4" type="video/mp4">
             </video>
         </div>
-        <div class="project-info">
-            <div class="project-title">CollidE</div>
-            <span class="project-tag">Digital Fashion / CLO3D</span>
+        <div class="work-info">
+            <div class="work-title">CollidE</div>
+            <span class="work-tag">Digital Fashion / CLO3D</span>
         </div>
     </div>
 
-    
-
+    <!-- 这里可以继续添加视觉设计类作品 -->
+    <!-- 占位说明：当前只保留已有项目，如需增加可复制卡片结构 -->
 
 </div>
 
-<!-- Modal: CollidE -->
-<div id="modal-collide" class="modal">
-    <span class="close-btn" onclick="closeModal('modal-collide')">&times;</span>
+<!-- ============================================================
+     页脚 — 含联系信息 (IG / 邮箱)
+============================================================ -->
+<footer id="contact">
+    <div>
+        <span class="tbc">To Be Continued</span>
+        <p>&copy; 2026 NAN JIANG</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 0.6rem; align-items: flex-end;">
+        <p><a href="https://www.instagram.com/winterbabybluee/" target="_blank">IG: @winterbabybluee</a></p>
+        <p><a href="mailto:jaanngnaan@163.com">jaanngnaan@163.com</a></p>
+    </div>
+</footer>
+
+<!-- ============================================================
+     模态弹窗 — 所有项目
+============================================================ -->
+
+<!-- Pulse of the Cosmos -->
+<div id="modal-pulse" class="modal">
+    <span class="close-btn" onclick="closeModal('modal-pulse')">&times;</span>
     <div class="modal-content">
         <div class="modal-body">
-            <h2>CollidE</h2>
-            <p>Based on the relationship between AI and humanity in the digital age, 'CollidE' explores how AI has ascended to a 'god-like' status in modern society. As individuals increasingly lose self-autonomy to algorithmic echo chambers, they become devotees of big data. The garment design draws inspiration from biblical depictions of angels and divinity—pale, rational, and overwhelmingly powerful.</p>
-            <h3>Concept Video</h3>
-            <video controls loop muted><source src="assets/conceptvideo.mp4" type="video/mp4"></video>
+            <h2>Pulse of the COSMOS</h2>
+            <p>This installation turns its attention to cosmic rays, using a solidified ‘foam’ structure to lend this abstract natural force a fateful, material form. The theme is rooted in a core scientific principle: cosmic rays imprint carbon-14 into all living organisms. The installation uses C++ and openFrameworks to monitor cosmic ray data in real time, transforming supernova explosions into silent physical transformations. Controlled via Arduino, the artist steps back, allowing the cosmos to dwell directly within the installation.</p>
+            <h3>Video</h3>
+            <video controls loop muted><source src="assets/cosmos1.mp4" type="video/mp4"></video>
             <h3>Visual Documentation</h3>
             <div class="modal-grid">
-                <img src="assets/cloth1.jpg">
-                <img src="assets/cloth2.jpg">
+                <img src="assets/cosmos1.jpg">
+                <img src="assets/cosmos2.jpg">
+                <img src="assets/cosmos3.jpg">
+                <img src="assets/cosmos4.jpg">
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal: Octopus -->
+<!-- Galdrastafir -->
+<div id="modal-galdrastafir" class="modal">
+    <span class="close-btn" onclick="closeModal('modal-galdrastafir')">&times;</span>
+    <div class="modal-content">
+        <div class="modal-body">
+            <h2>Galdrastafir</h2>
+            <p>Galdrastafir is an interactive installation exploring the intersection of physical tactility and digital mysticism. Using the 24 Elder Futhark runes as a medium, each symbol is deconstructed into geometric vectors. The interaction is distilled into a single act: selecting a rune and placing it upon the altar. As the physical pieces settle, their digital coordinates collide and intertwine within a virtual void. Through this silent alignment, the algorithm initiates a ritual of reconstruction—rotating and merging fragmented strokes into a unique protective Icelandic stave.</p>
+            <h3>Video</h3>
+            <video controls loop muted><source src="assets/Galdrastafirvideo.mp4" type="video/mp4"></video>
+            <h3>Visual Documentation</h3>
+            <div class="modal-grid">
+                <img src="assets/Galdrastafir2.jpg">
+                <img src="assets/Galdrastafir3.jpg">
+                <img src="assets/Galdrastafir4.jpg">
+                <img src="assets/Galdrastafir5.jpg">
+                <img src="assets/Galdrastafir6.jpg">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mimic Octopus -->
 <div id="modal-octopus" class="modal">
     <span class="close-btn" onclick="closeModal('modal-octopus')">&times;</span>
     <div class="modal-content">
         <div class="modal-body">
             <h2>Mimic Octopus</h2>
-            <p>I utilized TouchDesigner to create intricate octopus textures and integrated Arduino with a TCS3200 color sensor. The sensor captures the colors of the audience in real-time to manipulate the visual parameters within TouchDesigner, which are then projected back onto the octopus model, simulating the biological camouflage of a mimic octopus.</p>
+            <p>I utilized TouchDesigner to create intricate octopus textures and integrated Arduino with a TCS3200 color sensor. The sensor captures the colors of the audience in real-time to manipulate visual parameters within TouchDesigner, which are then projected back onto the octopus model, simulating the biological camouflage of a mimic octopus.</p>
             <h3>Demo Video</h3>
             <video controls loop muted><source src="assets/octopus.mp4" type="video/mp4"></video>
             <h3>Process Shots</h3>
@@ -447,7 +644,7 @@
     </div>
 </div>
 
-<!-- Modal: Conch -->
+<!-- Musical Archeo-Conch -->
 <div id="modal-conch" class="modal">
     <span class="close-btn" onclick="closeModal('modal-conch')">&times;</span>
     <div class="modal-content">
@@ -466,7 +663,7 @@
     </div>
 </div>
 
-<!-- Modal: Snowstorm -->
+<!-- Snowstorm Manor -->
 <div id="modal-snowstorm" class="modal">
     <span class="close-btn" onclick="closeModal('modal-snowstorm')">&times;</span>
     <div class="modal-content">
@@ -481,101 +678,83 @@
     </div>
 </div>
 
-<footer>
-    <div>
-        <span class="tbc">To Be Continued</span>
-        <p>&copy; 2026 NAN JIANG</p>
-    </div>
-    <div>
-        <p><a href="https://www.instagram.com/winterbabybluee/" target="_blank">IG: @winterbabybluee</a></p>
-    </div>
-</footer>
-
-<!-- Modal: Galdrastafir -->
-<div id="modal-Galdrastafir" class="modal">
-    <!-- 注意：这里的 onclick="closeModal('modal-newproject')" 括号里的 ID 要和上面一致 -->
-    <span class="close-btn" onclick="closeModal('modal-Galdrastafir')">&times;</span>
+<!-- CollidE -->
+<div id="modal-collide" class="modal">
+    <span class="close-btn" onclick="closeModal('modal-collide')">&times;</span>
     <div class="modal-content">
         <div class="modal-body">
-            <!-- 弹窗内的大标题 -->
-            <h2>Galdrastafir</h2>
-            
-            <!-- 作品核心概念描述 -->
-            <p>Galdrastafir is an interactive installation exploring the intersection of physical tactility and digital mysticism. Using the 24 Elder Futhark runes as a medium, each symbol is deconstructed into a set of underlying geometric vectors.
-The interaction is distilled into a single, deliberate act: selecting a rune and placing it upon the altar. As the physical pieces settle, their digital coordinates collide and intertwine within a virtual void. Through this silent alignment, the algorithm initiates a ritual of reconstruction—rotating and merging the fragmented strokes into a unique, protective Icelandic stave (Galdrasta/ir). By stripping away complex interfaces, the work seeks to rediscover the sacred, hushed power of ancient rituals within the precision of electronic logic.</p>
-            
-            <!-- 弹窗内的项目长视频（选填） -->
-            <h3>Video</h3>
-            <video controls loop muted><source src="assets/Galdrastafirvideo.mp4" type="video/mp4"></video>
-            
-            <!-- 弹窗内的多图网格展示（选填） -->
+            <h2>CollidE</h2>
+            <p>Based on the relationship between AI and humanity in the digital age, 'CollidE' explores how AI has ascended to a 'god-like' status in modern society. As individuals increasingly lose self-autonomy to algorithmic echo chambers, they become devotees of big data. The garment design draws inspiration from biblical depictions of angels and divinity—pale, rational, and overwhelmingly powerful.</p>
+            <h3>Concept Video</h3>
+            <video controls loop muted><source src="assets/conceptvideo.mp4" type="video/mp4"></video>
             <h3>Visual Documentation</h3>
             <div class="modal-grid">
-                <img src="assets/Galdrastafir2.jpg">
-                <img src="assets/Galdrastafir3.jpg">
-                <img src="assets/Galdrastafir4.jpg">
-                <img src="assets/Galdrastafir5.jpg">
-                <img src="assets/Galdrastafir6.jpg">
+                <img src="assets/cloth1.jpg">
+                <img src="assets/cloth2.jpg">
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal: pulse of the cosmos -->
-<div id="modal-pulse of the cosmos" class="modal">
-    <!-- 注意：这里的 onclick="closeModal('modal-newproject')" 括号里的 ID 要和上面一致 -->
-    <span class="close-btn" onclick="closeModal('modal-pulse of the cosmos')">&times;</span>
-    <div class="modal-content">
-        <div class="modal-body">
-            <!-- 弹窗内的大标题 -->
-            <h2>Pulse of the COSMOS</h2>
-            
-            <!-- 作品核心概念描述 -->
-            <p>This installation turns its attention to cosmic rays, using a solidified ‘foam’ structure to lend this abstract natural force a fateful, material form. The theme of the work is rooted in a core scientific principle of modern archaeology: it is precisely the cosmic rays—originating from deep space and silently bombarding the atmosphere—that permanently imprint the carbon-14 isotope into the physical structure of all living organisms; death, meanwhile, signifies a permanent ‘disconnection’ from this cosmic synchrony, thereby initiating the solitary and irreversible journey of carbon-14’s decay within th e body.
-
-The installation utilises C++,openFrameworks to monitor cosmic ray data in real time, transforming supernova explosions in deep space into silent, physical transformations. By controlling the installation in real time via Arduino, the artist steps back into the background, allowing the cosmos to dwell directly within the installation and reshape its form. At its centre lies a bubble crafted from resin, serving as a metaphor for life: life is fragile and fleeting, like a bubble; yet when all these bubbles come together, they are not so fragile after all. All plants and animals share a fleeting mutual aid, and life remains beautiful.
-</p>
-            
-            <!-- 弹窗内的项目长视频（选填） -->
-            <h3>Video</h3>
-            <video controls loop muted><source src="assets/cosmos1.mp4" type="video/mp4"></video>
-            
-            <!-- 弹窗内的多图网格展示（选填） -->
-            <h3>Visual Documentation</h3>
-            <div class="modal-grid">
-                <img src="assets/cosmos1.jpg">
-                <img src="assets/cosmos2.jpg">
-                <img src="assets/cosmos3.jpg">
-                <img src="assets/cosmos4.jpg">
-            </div>
-        </div>
-    </div>
-</div>
-
+<!-- ============================================================
+     脚本 — 模态开关、悬停视频播放
+============================================================ -->
 <script>
+    // 打开模态
     function openModal(id) {
-        document.getElementById(id).style.display = "block";
-        document.body.style.overflow = "hidden";
-    }
-
-    function closeModal(id) {
-        document.getElementById(id).style.display = "none";
-        document.body.style.overflow = "auto";
-    }
-
-    const cards = document.querySelectorAll('.project-card');
-    cards.forEach(card => {
-        const hv = card.querySelector('.hover-video');
-        card.addEventListener('mouseenter', () => { if(hv) hv.play(); });
-        card.addEventListener('mouseleave', () => { if(hv) { hv.pause(); hv.currentTime = 0; } });
-    });
-
-    window.onclick = function(e) {
-        if (e.target.className === 'modal') {
-            document.querySelectorAll('.modal').forEach(m => m.style.display = "none");
-            document.body.style.overflow = "auto";
+        const modal = document.getElementById(id);
+        if (modal) {
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
         }
     }
+
+    // 关闭模态
+    function closeModal(id) {
+        const modal = document.getElementById(id);
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    // 点击背景关闭模态
+    window.addEventListener('click', function(e) {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    // 悬停播放预览视频
+    document.querySelectorAll('.work-card').forEach(card => {
+        const hoverVideo = card.querySelector('.hover-video');
+        if (!hoverVideo) return;
+
+        card.addEventListener('mouseenter', () => {
+            hoverVideo.play().catch(() => {});
+        });
+
+        card.addEventListener('mouseleave', () => {
+            hoverVideo.pause();
+            hoverVideo.currentTime = 0;
+        });
+    });
+
+    // 平滑滚动（针对导航锚点）
+    document.querySelectorAll('.banner-nav a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
 </script>
+
 </body>
 </html>
